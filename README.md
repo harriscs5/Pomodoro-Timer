@@ -10,7 +10,7 @@ Using this method, you break your workday into 25-minute chunks separated by fiv
 4. Decrease back pain and mental fatigue
 5. Maintain motivation
 
-#The basic process is as follows:
+The basic process is as follows:
 ---
 Start a 25-minute timer.
 Work until the timer rings.
