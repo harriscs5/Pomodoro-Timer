@@ -12,7 +12,7 @@ Using this method, you break your workday into 25-minute chunks separated by fiv
 
 The basic process is as follows:
 ---
-Start a 25-minute timer.
-Work until the timer rings.
-Take a short, five minutes break.
-Every four pomodoros, take a longer break (15 minutes).
+*Start a 25-minute timer.
+*Work until the timer rings.
+*Take a short, five minutes break.
+*Every four pomodoros, take a longer break (15 minutes).
