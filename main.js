@@ -1,6 +1,6 @@
 const timer = {
     pomodoro: 25,
-    shortBreak: 5,
+    shortBreak: 1,
     longBreak: 15,
     longBreakInterval: 4,
     sessions: 0,
@@ -11,8 +11,10 @@ let interval;
 
 // update the countdown with the appropriate amount of minutes and seconds once any of the three buttons above it is clicked.
 
+const buttonSound = new Audio('button-sound.mp3');
 const mainButton = document.getElementById('js-btn');
 mainButton.addEventListener('click', () => {
+    buttonSound.play(); //makes the sound play each time the main button is clicked(start)
     const { action } = mainButton.dataset;
     if (action === 'start') {
         startTimer();
@@ -76,6 +78,17 @@ function startTimer() {
                       switchMode('pomodoro');
           } //Once the countdown reaches zero, the switch statement causes the app to switch to a new break session or pomodoro session depending on the value of timer.mode
 
+          if (Notification.permission === 'granted') {
+            const text =
+              timer.mode === 'pomodoro' ? 'Get back to work!' : 'Take a break!';
+              new Notification(text);
+        } // ensures that a new notification is displayed when a new session begins. the ternary operator is used to set the text in the notification based on the current state of the timer.
+
+
+          document.querySelector(`[data-sound="${timer.mode}"]`).play();
+          //transition sounds
+          //Once a pomodoro session ends and a break session begins, a ringing sound is heard. On the other hand, a “Get back to work” message is played when transitioning to a pomodoro session.
+
           startTimer();
         }
       }, 1000);
@@ -98,6 +111,10 @@ function updateClock() {
     const sec = document.getElementById('js-seconds');
     min.textContent = minutes;
     sec.textContent = seconds;
+
+    const text = timer.mode === 'pomodoro' ? 'Get back to work!' : 'Take a break';
+    document.title = `${minutes}:${seconds} - ${text}`;
+    //document .title changes the page title displayed on the browser tab & allows the user to see the remaining time without having to switch browser tabs
 
     const progress = document.getElementById('js-progress');
     progress.value = timer[timer.mode] * 60 - timer.remainingTime.total;
@@ -142,5 +159,22 @@ function handleMode(event) {
 //once mode button click detected  => handleMode() function invoked 
 
 document.addEventListener('DOMContentLoaded', () => {
+    // checking if the browser supports notifications
+    if ('Notification' in window) {
+      // If notification permissions have neither been granted or denied
+      if (Notification.permission !== 'granted' && Notification.permission !== 'denied') {
+        // ask the user for permission
+        Notification.requestPermission().then(function(permission) {
+          // If permission is granted
+          if (permission === 'granted') {
+            // Create a new notification
+            new Notification(
+              'Awesome! You will be notified at the start of each session'
+            );
+          }
+        });
+      }
+    }
+  
     switchMode('pomodoro');
-  });
+  }); //this allows you to display a notice in your browser asking you to grant notifications permission to the webpage. Ensure to grant this permission before proceeding. Once granted, a test notification will be displayed.
