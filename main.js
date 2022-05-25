@@ -17,7 +17,7 @@ mainButton.addEventListener('click', () => {
         startTimer();
     } else {
         stopTimer();
-    }
+      }
 });
 //Once the main button is clicked, the value of the data-action attribute on the button is stored in an action variable and checked to see if it’s equal to “start”. If so, the startTimer() function is invoked and the countdown begins.
 
@@ -50,29 +50,24 @@ function startTimer() {
     mainButton.classList.add('active');
     //button text changes to “stop” and the button becomes depressed like a hardware button.
 
+    interval = setInterval(function() {
+        timer.remainingTime = getRemainingTime(endTime);
+        updateClock();
+    
+        total = timer.remainingTime.total;
+        if (total <= 0) {
+          clearInterval(interval);
+        }
+      }, 1000);
+}
+
 function stopTimer() {
     clearInterval(interval);
-      
+  
     mainButton.dataset.action = 'start';
     mainButton.textContent = 'start';
     mainButton.classList.remove('active');
   }
-  //In this function, the clearInterval() method is invoked, causing the setInterval() method triggered in startTimer() to be cancelled so that the countdown is paused.
-  //The value of the button’s data-action attribute and its text content is changed to “start” and it is returned to its original form by removing the active class.
-
-
-  
-    interval = setInterval(function() {
-      timer.remainingTime = getRemainingTime(endTime);
-      updateClock();
-  
-      total = timer.remainingTime.total;
-      if (total <= 0) {
-        clearInterval(interval);
-      }
-    }, 1000);
-  }
-  
 
 function updateClock() {
     const { remainingTime } = timer;
@@ -88,9 +83,6 @@ function updateClock() {
  // this function takes a timestamp and finds the difference between the current time and the end time in milliseconds.
 //diff divided (/) by 1000 => converted to integer using Number.parseInt()
 
-
-  //this ensures that the default mode for the timer is pomodoro and the contents of timer.remainingTime is set to the appropriate values for a pomodoro session
-
 function switchMode(mode) {
     timer.mode = mode;
     timer.remainingTime = {
@@ -98,6 +90,8 @@ function switchMode(mode) {
         minutes: timer[mode],
         seconds: 0,
     };
+    //this ensures that the default mode for the timer is pomodoro and the contents of timer.remainingTime is set to the appropriate values for a pomodoro session
+
 
     document
         .querySelectorAll('button[data-mode')
@@ -110,7 +104,7 @@ function switchMode(mode) {
 
 
 function handleMode(event) {
-    const { mode } =event.target.dataset;
+    const { mode } = event.target.dataset;
 
     if (!mode) return;
 
