@@ -13,6 +13,11 @@ html {
   box-sizing: border-box;
 }
 
+.title{
+  text-align: center;
+  font-family: 'Lobster Two', cursive;
+}
+
 *, *::before, *::after {
   box-sizing: inherit;
   margin: 0;
