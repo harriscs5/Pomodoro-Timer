@@ -98,6 +98,10 @@ function updateClock() {
     const sec = document.getElementById('js-seconds');
     min.textContent = minutes;
     sec.textContent = seconds;
+
+    const progress = document.getElementById('js-progress');
+    progress.value = timer[timer.mode] * 60 - timer.remainingTime.total;
+    //Each time updateClock() is invoked, the value attribute of the <progress> element is updated to the result of the remaining amount of seconds subtracted from the total number of seconds in the session, causing the progress bar to update accordingly.
   }
   
  // this function takes a timestamp and finds the difference between the current time and the end time in milliseconds.
@@ -118,6 +122,9 @@ function switchMode(mode) {
         .forEach(e => e.classList.remove('active'));
     document.querySelector(`[data-mode="${mode}"]`).classList.add('active');
     document.body.style.backgroundColor = `var(--${mode})`;
+    document
+        .getElementById('js-progress')
+        .setAttribute('max', timer.remainingTime.total);
 
     updateClock();
 }
